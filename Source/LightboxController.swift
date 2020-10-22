@@ -8,6 +8,7 @@ public protocol LightboxControllerPageDelegate: class {
 public protocol LightboxControllerDismissalDelegate: class {
 
   func lightboxControllerWillDismiss(_ controller: LightboxController)
+  func lightboxControllerDidDismiss(_ controller: LightboxController)
 }
 
 public protocol LightboxControllerTouchDelegate: class {
@@ -169,7 +170,7 @@ open class LightboxController: UIViewController {
     // 9 July 2020: @3lvis
     // Lightbox hasn't been optimized to be used in presentation styles other than fullscreen.
     modalPresentationStyle = .fullScreen
-    
+
     statusBarHidden = UIApplication.shared.isStatusBarHidden
 
     view.backgroundColor = UIColor.black
@@ -453,7 +454,9 @@ extension LightboxController: HeaderViewDelegate {
     closeButton.isEnabled = false
     presented = false
     dismissalDelegate?.lightboxControllerWillDismiss(self)
-    dismiss(animated: true, completion: nil)
+    dismiss(animated: true, completion: { _ in
+      self.dismissalDelegate?.lightboxControllerDidDismiss(self)
+    })
   }
 }
 
