@@ -454,7 +454,7 @@ extension LightboxController: HeaderViewDelegate {
     closeButton.isEnabled = false
     presented = false
     dismissalDelegate?.lightboxControllerWillDismiss(self)
-    dismiss(animated: true, completion: { _ in
+    dismiss(animated: true, completion: {
       self.dismissalDelegate?.lightboxControllerDidDismiss(self)
     })
   }
